@@ -4,7 +4,7 @@ import { useState } from "react";
 import useDebounce from "../utils/useDebounce";
 import useSWR from "swr";
 
-const KEY = "a656cda44d3b4195aa2e6e492de8c7cb";
+const KEY = "07253f8fb74c8a5e470a4c59c5c150e0";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function Home() {
@@ -15,12 +15,7 @@ export default function Home() {
    console.log("value : ", value);
 
    const { data } = useSWR(
-      `https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=${
-         value || "man u"
-      }&apiKey=${KEY}`,
-      // `http://newsapi.org/v2/top-headlines?country=${
-      //    value || "th"
-      // }&apiKey=${KEY}`,
+      `https://gnews.io/api/v4/search?q=${value || "man u"}&token=${KEY}`,
       fetcher,
       { revalidateOnFocus: false },
    );
@@ -62,7 +57,7 @@ export default function Home() {
                               <img
                                  // width="120"
                                  // height="120"
-                                 src={article.urlToImage}
+                                 src={article.image}
                                  alt="mountains"
                                  className="w-full h-64 rounded-lg rounded-b-none"
                               />
@@ -79,7 +74,7 @@ export default function Home() {
                                  <div className="user-logo">
                                     <img
                                        className="w-12 h-12 object-cover rounded-full mx-4  shadow"
-                                       src={article.urlToImage}
+                                       src={article.image}
                                        alt="avatar"
                                     />
                                  </div>
