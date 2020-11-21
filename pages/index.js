@@ -15,7 +15,9 @@ export default function Home() {
    console.log("value : ", value);
 
    const { data } = useSWR(
-      `https://newsapi.org/v2/everything?q=${value || "man u"}&apiKey=${KEY}`,
+      `https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=${
+         value || "man u"
+      }&apiKey=${KEY}`,
       // `http://newsapi.org/v2/top-headlines?country=${
       //    value || "th"
       // }&apiKey=${KEY}`,
