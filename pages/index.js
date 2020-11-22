@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useState } from "react";
 import useDebounce from "../utils/useDebounce";
 import useSWR from "swr";
@@ -7,20 +6,21 @@ import useSWR from "swr";
 const KEY = "07253f8fb74c8a5e470a4c59c5c150e0";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
-export default function Home() {
+export default function Home({ data: initialData }) {
    //  const initialData = initail;
 
-   const [inputValue, setInputValue] = useState(0);
-   const value = useDebounce(inputValue, 1000);
-   console.log("value : ", value);
+   const [inputValue, setInputValue] = useState("");
+   const value = useDebounce(inputValue, 400);
 
    const { data } = useSWR(
-      `https://gnews.io/api/v4/search?q=${value || "man u"}&token=${KEY}`,
+      `https://gnews.io/api/v4/search?q=${value || "covid"}&token=${KEY}`,
       fetcher,
-      { revalidateOnFocus: false },
+      {
+         revalidateOnFocus: false,
+         initialData: value ? undefined : initialData,
+      },
    );
    if (data?.status === "error") return <div>error</div>;
-   console.log("data : ", data?.articles);
 
    return (
       <div className="flex justify-center">
@@ -32,8 +32,8 @@ export default function Home() {
             <div className="text-3xl px-4 mb-4 mt-4">
                <h2>Today NEWS</h2>
             </div>
-            <div className="px-4 mb-4 mt-4 mx-auto w-full">
-               <div className="relative mr-6 my-2 mx-auto w-full">
+            <div className="px-4 mb-4 mt-4  w-full">
+               <div className="relative mr-6 my-2  w-full">
                   <input
                      onChange={(event) => setInputValue(event.target.value)}
                      type="search"
@@ -97,9 +97,9 @@ export default function Home() {
    );
 }
 
-// export async function getServerSideProps() {
-//    const data = await fetcher(
-//       `https://newsapi.org/v2/everything?q=${"premier league"}&apiKey=${KEY}`,
-//    );
-//    return { props: { data } };
-// }
+export async function getServerSideProps() {
+   const data = await fetcher(
+      `https://gnews.io/api/v4/search?q=${"covid"}&token=${KEY}`,
+   );
+   return { props: { data } };
+}
