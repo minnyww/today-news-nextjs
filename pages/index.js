@@ -27,6 +27,11 @@ export default function Home({ data: initialData }) {
          <Head>
             <title>Min News</title>
             <link rel="icon" href="/favicon.ico" />
+            <script
+               data-ad-client="ca-pub-9048050181020642"
+               async
+               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            ></script>
          </Head>
          <div className="flex flex-col">
             <div className="text-3xl px-4 mb-4 mt-4">
