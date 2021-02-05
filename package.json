@@ -11,6 +11,7 @@
       "next": "10.0.2",
       "react": "17.0.1",
       "react-dom": "17.0.1",
+      "react-intl": "^5.12.1",
       "swr": "^0.3.9"
    },
    "devDependencies": {

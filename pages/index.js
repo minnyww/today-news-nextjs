@@ -2,6 +2,10 @@ import Head from "next/head";
 import { useState } from "react";
 import useDebounce from "../utils/useDebounce";
 import useSWR from "swr";
+import { useRouter } from "next/router";
+
+import Link from "next/link";
+import { useIntl } from "react-intl";
 
 const KEY = "07253f8fb74c8a5e470a4c59c5c150e0";
 const fetcher = (url) => fetch(url).then((response) => response.json());
@@ -9,6 +13,9 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function Home({ data: initialData }) {
    //  const initialData = initail;
 
+   const { locale, locales } = useRouter();
+   const { formatMessage: f } = useIntl();
+   console.log("locale : ", locale);
    const [inputValue, setInputValue] = useState("");
    const value = useDebounce(inputValue, 400);
 
@@ -24,6 +31,15 @@ export default function Home({ data: initialData }) {
 
    return (
       <div className="flex justify-center">
+         <ul>
+            {locales.map((loc) => (
+               <li key={loc}>
+                  <Link href="/" locale={loc}>
+                     <a>{loc}</a>
+                  </Link>
+               </li>
+            ))}
+         </ul>
          <Head>
             <title>Min News</title>
             <link rel="icon" href="/favicon.ico" />
@@ -43,7 +59,7 @@ export default function Home({ data: initialData }) {
                      onChange={(event) => setInputValue(event.target.value)}
                      type="search"
                      className="bg-purple-white shadow rounded border-0 p-3 w-full"
-                     placeholder="Search by news..."
+                     placeholder={f({ id: "search" })}
                   />
                   <div className="absolute pin-r pin-t mt-3 mr-4 text-purple-lighter"></div>
                </div>
